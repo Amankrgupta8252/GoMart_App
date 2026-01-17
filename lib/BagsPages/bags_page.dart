@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_app/BagsPages/bags_controller.dart';
+import 'package:ecommerce_app/BagsPages/bags_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -15,7 +16,7 @@ class BagsPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         title: const Text(
-          "Clothes",
+          "Bags",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -41,7 +42,12 @@ class BagsPage extends StatelessWidget {
                 ),
                 itemBuilder: (context, index) {
                   final item = controller.images[index];
-                  return _productCard(item);
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(() => BagsDetailPage(item: item));
+                    },
+                    child: _productCard(item),
+                  );
                 },
               ),
             ),
@@ -60,11 +66,13 @@ class BagsPage extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: CachedNetworkImage(
-                  imageUrl: item["image"]!,
-                  width: double.infinity,
-                  // height: 100,
-                  fit: BoxFit.cover,
+                child: Hero(
+                  tag: item["image"]!, // UNIQUE TAG
+                  child: CachedNetworkImage(
+                    imageUrl: item["image"]!,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Positioned(

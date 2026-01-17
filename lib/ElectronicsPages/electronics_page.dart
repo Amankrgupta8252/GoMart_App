@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecommerce_app/ClothesPages/clothes_Controller.dart';
 import 'package:ecommerce_app/ElectronicsPages/electronics_controller.dart';
+import 'package:ecommerce_app/ElectronicsPages/electronics_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -16,7 +16,7 @@ class ElectronicsPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         title: const Text(
-          "Clothes",
+          "Electronics",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -32,6 +32,7 @@ class ElectronicsPage extends StatelessWidget {
           children: [
             /// GRID
             Expanded(
+
               child: GridView.builder(
                 itemCount: controller.images.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -42,7 +43,12 @@ class ElectronicsPage extends StatelessWidget {
                 ),
                 itemBuilder: (context, index) {
                   final item = controller.images[index];
-                  return _productCard(item);
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(() => ElectronicsDetailPage(item: item));
+                    },
+                    child: _productCard(item),
+                  );
                 },
               ),
             ),
@@ -61,11 +67,13 @@ class ElectronicsPage extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: CachedNetworkImage(
-                  imageUrl: item["image"]!,
-                  width: double.infinity,
-                  // height: 100,
-                  fit: BoxFit.cover,
+                child: Hero(
+                  tag: item["image"]!,
+                  child: CachedNetworkImage(
+                    imageUrl: item["image"]!,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Positioned(
@@ -113,9 +121,10 @@ class ElectronicsPage extends StatelessWidget {
             ),
           ],
         ),
+
         Text(
           item["price"]!,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold, ),
         ),
       ],
     );

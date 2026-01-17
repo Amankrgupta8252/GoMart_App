@@ -16,26 +16,41 @@ class ClothesDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      // appBar: AppBar(),
       body: SingleChildScrollView(
         child: Stack(
           children: [
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Hero(
-                  tag: item["image"]!,
-                  transitionOnUserGestures: true,
-                  child: CachedNetworkImage(
-                    imageUrl: item["image"]!,
-                    width: double.infinity,
-                    height: 350,
-                    fit: BoxFit.cover,
-                  ),
+
+                Stack(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: item["image"]!,
+                      height: 350,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top - 5,
+                      left: 8,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white.withOpacity(0.8),
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          color: Colors.black,
+                          onPressed: () => Get.back(),
+                        ),
+                      ),
+                    ),
+
+
+                  ],
                 ),
-                // IconButton(onPressed: (){
-                //   Get.back();
-                // }, icon: Icon(Icons.arrow_back),),
+
 
                 Padding(
                   padding: const EdgeInsets.all(12),
@@ -105,44 +120,27 @@ class ClothesDetailPage extends StatelessWidget {
                       SingleChildScrollView(
                         child: Column(
                           children: [
-                            Row(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                                  children: [
-                                    const Text(
-                                      "Size",
-                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Wrap(
-                                      spacing: 10,
-                                      children: sizes.map((size) => _SizeCard(size)).toList(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(width: 20),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                                  children: [
-                                    const Text(
-                                      "Color",
-                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Wrap(
-                                      spacing: 10,
-                                      children: colors.map((color) => _ColorCard(color)).toList(),
-                                    ),
-                                  ],
+                                const Text("Size", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                const SizedBox(height: 12),
+                                Wrap(
+                                  spacing: 10,
+                                  children: sizes.map((size) => _SizeCard(size)).toList(),
                                 ),
 
+                                const SizedBox(height: 20),
 
-
+                                const Text("Color", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                const SizedBox(height: 12),
+                                Wrap(
+                                  spacing: 10,
+                                  children: colors.map((color) => _ColorCard(color)).toList(),
+                                ),
                               ],
                             )
+
                           ],
                         ),
                       ),

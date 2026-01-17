@@ -1,4 +1,6 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:ecommerce_app/BottomNav/main_layout.dart';
+import 'package:ecommerce_app/CartPages/Cart_page.dart';
 import 'package:ecommerce_app/HomePage/home_page.dart';
 import 'package:ecommerce_app/WelcomePages/welcome.dart';
 import 'package:flutter/foundation.dart';
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
         builder: DevicePreview.appBuilder,
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
-        home: HomePage(),
+        home: MainLayout(),
 
     );
   }

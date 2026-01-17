@@ -88,7 +88,6 @@ class SearchPage extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            /// 📃 RESULT GRID
             Expanded(
               child: Obx(
                     () => controller.filteredData.isEmpty
@@ -152,14 +151,13 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  /// ❌ NO RESULT
   Widget _noResult() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Icon(Icons.search_off, size: 80),
-        SizedBox(height: 10),
-        Text(
+      children: [
+        Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVlfoW9-LcbEJImycyeUWCreWd0VMc314J4m1BhA2SmjZsWVEp"),
+        const SizedBox(height: 10),
+        const Text(
           "No Result Found",
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
