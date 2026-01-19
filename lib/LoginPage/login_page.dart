@@ -54,15 +54,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final isKeybordOpen = MediaQuery.of(context).viewInsets.bottom > 0;
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
-      // appBar: AppBar(
-      //   title: const Text("Static Login"),
-      //   centerTitle: true,
-      // ),
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xffb11f1f),
-      //
-      // ),
+
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16,),
         child: Column(

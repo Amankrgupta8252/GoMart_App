@@ -21,6 +21,43 @@ class CartController extends GetxController {
       "Price": 499.0,
       "Qty": 1,
     },
+    {
+      "Image":
+      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTVKOQFgmiOvX-p6gELSLfiAcSMum82xRe1vBn34o5nx403xNk3",
+      "Name": "Winter Hoodie",
+      "Color": "0xff000000",
+      "Size": "L",
+      "Price": 499.0,
+      "Qty": 1,
+    },
+    {
+      "Image":
+      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTVKOQFgmiOvX-p6gELSLfiAcSMum82xRe1vBn34o5nx403xNk3",
+      "Name": "Winter Hoodie",
+      "Color": "0xff000000",
+      "Size": "L",
+      "Price": 499.0,
+      "Qty": 1,
+    },
+    {
+      "Image":
+      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTVKOQFgmiOvX-p6gELSLfiAcSMum82xRe1vBn34o5nx403xNk3",
+      "Name": "Winter Hoodie",
+      "Color": "0xff000000",
+      "Size": "L",
+      "Price": 499.0,
+      "Qty": 1,
+    },
+    {
+      "Image":
+      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTVKOQFgmiOvX-p6gELSLfiAcSMum82xRe1vBn34o5nx403xNk3",
+      "Name": "Winter Hoodie",
+      "Color": "0xff000000",
+      "Size": "L",
+      "Price": 499.0,
+      "Qty": 1,
+    },
+
   ].obs;
 
   /// INCREASE QUANTITY

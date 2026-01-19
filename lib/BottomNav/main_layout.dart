@@ -1,16 +1,13 @@
 import 'package:ecommerce_app/CartPages/Cart_page.dart';
 import 'package:ecommerce_app/HomePage/home_page.dart';
 import 'package:ecommerce_app/OrdersPages/top_nav.dart';
+import 'package:ecommerce_app/ProfilePages/profile_page.dart';
+import 'package:ecommerce_app/WalletPages/wallet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-
 import 'bottom_nav_controller.dart';
-// import 'home_page.dart';
-// import 'cart_page.dart';
-// import 'order_page.dart';
-// import 'wallet_page.dart';
-// import 'profile_page.dart';
+
 
 class MainLayout extends StatelessWidget {
   MainLayout({super.key});
@@ -22,8 +19,8 @@ class MainLayout extends StatelessWidget {
     HomePage(),
     CartPage(),
     TopNav(),
-    // WalletPage(),
-    // ProfilePage(),
+    WalletPage(),
+    ProfilePage()
   ];
 
   @override
@@ -51,7 +48,6 @@ class MainLayout extends StatelessWidget {
           child: BottomNavigationBar(
             currentIndex: controller.currentIndex.value,
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.white,
             selectedItemColor: Colors.black,
             unselectedItemColor: Colors.grey,
             onTap: controller.changeIndex,

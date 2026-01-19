@@ -6,7 +6,6 @@ import '../lick_items/wish_list.dart';
 import '../notification/notification_page.dart';
 import '../search/search_keybord.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import '../BottomNav/custom_bottom_nav.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -14,7 +13,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
       body: SafeArea(
         
         child: Column(

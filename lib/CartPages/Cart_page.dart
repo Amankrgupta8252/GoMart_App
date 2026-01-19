@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/CartPages/check_out.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -208,7 +209,9 @@ class CartPage extends StatelessWidget {
               ),
               const Spacer(),
               ElevatedButton(
-                onPressed: controller.cartItems.isEmpty ? null : () {},
+                onPressed: controller.cartItems.isEmpty ? null : () {
+                  Get.to(CheckOut());
+                },
                 style: ElevatedButton.styleFrom(
                   padding:
                   const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
