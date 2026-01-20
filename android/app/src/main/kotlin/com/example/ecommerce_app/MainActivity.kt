@@ -1,5 +1,5 @@
-package com.example.ecommerce_app
+package com.example.finger_printing
 
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : FlutterActivity()
+class MainActivity : FlutterFragmentActivity()

@@ -13,11 +13,15 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: SafeArea(
-        
+
+        top: false,
+
         child: Column(
-          
+
           children: [
+            SizedBox(height: 50,),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -118,17 +122,14 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  // const SizedBox(height: 20),
                 ],
               ),
             ),
 
 
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ListView(children: [SpecialOffers()]),
-              ),
+              child: SpecialOffers(),
             ),
           ],
         ),

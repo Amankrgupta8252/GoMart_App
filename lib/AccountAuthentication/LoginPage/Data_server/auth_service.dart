@@ -1,5 +1,4 @@
-import 'package:ecommerce_app/LoginPage/Model/user_model.dart';
-
+import 'package:ecommerce_app/AccountAuthentication/LoginPage/Model/user_model.dart';
 
 class AuthService {
   static final List<UserModel> users = [

@@ -12,6 +12,7 @@ class SpecialOffers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -107,7 +108,7 @@ class SpecialOffers extends StatelessWidget {
             gridDelegate:
             const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 100,
-              childAspectRatio: 0.8,
+              childAspectRatio: 1.1,
             ),
             itemCount: controller.brands.length,
             itemBuilder: (_, index) {

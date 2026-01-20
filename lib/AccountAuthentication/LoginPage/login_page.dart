@@ -1,7 +1,10 @@
+import 'package:ecommerce_app/AccountAuthentication/AccountSetup/fill_your_profile.dart';
+import 'package:ecommerce_app/AccountAuthentication/ForgotPassword/forgot_page.dart';
+import 'package:ecommerce_app/AccountAuthentication/ForgotPassword/forgot_pss.dart';
 import 'package:ecommerce_app/HomePage/home_page.dart';
-import 'package:ecommerce_app/LoginPage/Data_server/auth_service.dart';
-import 'package:ecommerce_app/WelcomePages/WelcomeNext/ImageWithButtonSlider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'Data_server/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     final success = AuthService.login(email, password);
 
     if (success) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomePage()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const FillYourProfile()));
       // showMessage("Login Successful ✅");
     } else {
       showMessage("Invalid Email or Password ❌");
@@ -166,7 +169,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
 
             const SizedBox(height: 24),
-            TextButton(onPressed: () {}, child: Text("Forgot Password")),
+            TextButton(onPressed: () {
+              Get.to(() => const ForgotPage());
+            }, child: Text("Forgot Password")),
 
           ],
         ),
