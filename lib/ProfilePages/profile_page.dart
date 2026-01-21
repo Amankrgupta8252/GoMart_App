@@ -18,31 +18,8 @@ class ProfilePage extends StatelessWidget {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         actions: [
-          Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: Colors.black),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                3,
-                (index) => Padding(
-                  padding: const EdgeInsets.all(2.5),
-                  child: Container(
-                    width: 4,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          IconButton(onPressed: (){}, icon: Icon(IconsaxPlusLinear.more_circle,size: 30,)),
+
           const SizedBox(width: 16),
         ],
       ),

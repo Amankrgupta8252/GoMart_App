@@ -39,7 +39,7 @@ class ForgotPage extends StatelessWidget {
         ),
       ),
 
-      body: Padding(
+      body: SingleChildScrollView( child:  Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
@@ -134,6 +134,7 @@ class ForgotPage extends StatelessWidget {
 
           ],
         ),
+      ),
       ),
     );
   }

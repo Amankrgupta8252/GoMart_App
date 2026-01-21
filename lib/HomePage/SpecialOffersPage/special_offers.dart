@@ -98,9 +98,8 @@ class SpecialOffers extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
 
-          /// BRANDS GRID
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -135,7 +134,6 @@ class SpecialOffers extends StatelessWidget {
             backgroundColor: const Color(0xffe9e9e9),
             child: Icon(model.icon, color: Colors.black),
           ),
-          const SizedBox(height: 6),
           Text(model.title),
         ],
       ),

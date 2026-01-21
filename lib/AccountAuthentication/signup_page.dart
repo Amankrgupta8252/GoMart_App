@@ -1,77 +1,81 @@
-import 'package:ecommerce_app/AccountAuthentication/AccountSetup/fill_your_profile.dart';
-import 'package:ecommerce_app/AccountAuthentication/ForgotPassword/forgot_page.dart';
-import 'package:ecommerce_app/BottomNav/main_layout.dart';
-import 'package:ecommerce_app/HomePage/home_page.dart';
+import 'dart:developer';
+import 'package:ecommerce_app/AccountAuthentication/LoginPage/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'Data_server/auth_service.dart';
+import 'LoginPage/Data_server/auth_service.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupPageState extends State<SignupPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmController = TextEditingController();
 
   bool isPasswordHidden = true;
+  bool isLoading = false;
   bool isChecked = false;
 
-  // ✅ FIXED LOGIN FUNCTION
-  void handleLogin() async {
+  void handleRegister() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
+    final confirm = confirmController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
+    if (email.isEmpty || password.isEmpty || confirm.isEmpty) {
       showMessage("Please fill all fields");
       return;
     }
 
-    final success = await AuthService.login(email, password);
+    if (password != confirm) {
+      showMessage("Password not match");
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    final success = await AuthService.register(email, password);
+
+    log(success.toString());
 
     if (success) {
-      Get.offAll(() => FillYourProfile());
-      // agar profile fill karwana hai to:
-      // Get.offAll(() => const FillYourProfile());
+      setState(() => isLoading = false);
+      Get.offAll(() => const LoginPage());
+      showMessage("Account created successfully ✅");
+
     } else {
-      showMessage("Invalid Email or Password ❌");
+      setState(() => isLoading = false);
+      showMessage("Registration failed ❌");
     }
   }
 
-  void showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
+  void showMessage(String msg) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(msg)));
   }
 
   @override
   Widget build(BuildContext context) {
     final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
 
-    return Scaffold(appBar: AppBar(
+    return Scaffold(
+      appBar: AppBar(
 
-    ),
-
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
+
           children: [
             SizedBox(height: 50,),
-
             if (!isKeyboardOpen)
               const Text(
-                'Login to your Account',
+                'Create your Account',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
                 // textAlign: TextAlign.center,
               ),
@@ -119,6 +123,21 @@ class _LoginPageState extends State<LoginPage> {
 
             const SizedBox(height: 16),
 
+            /// CONFIRM PASSWORD
+            TextField(
+              controller: confirmController,
+              obscureText: isPasswordHidden,
+              decoration: const InputDecoration(
+                labelText: "Confirm Password",
+                prefixIcon: Icon(Icons.lock),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -126,13 +145,11 @@ class _LoginPageState extends State<LoginPage> {
                   value: isChecked,
                   activeColor: Colors.black,
                   onChanged: (value) {
-                    setState(() {
-                      isChecked = value!;
-                    });
+                    setState(() => isChecked = value!);
                   },
                 ),
                 const Text(
-                  'Remember me',
+                  'I agree to Terms & Conditions',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
@@ -140,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
 
             const SizedBox(height: 16),
 
-            /// LOGIN BUTTON
+            /// REGISTER BUTTON
             SizedBox(
               width: double.infinity,
               height: 50,
@@ -149,18 +166,24 @@ class _LoginPageState extends State<LoginPage> {
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
                 ),
-                onPressed: handleLogin,
-                child: const Text("Login", style: TextStyle(fontSize: 18)),
+                onPressed: isLoading ? null : handleRegister,
+                child: isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text("Register", style: TextStyle(fontSize: 18)),
               ),
             ),
 
             const SizedBox(height: 24),
 
-            TextButton(
-              onPressed: () {
-                Get.to(() => const ForgotPage());
-              },
-              child: const Text("Forgot Password"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Already have an account?"),
+                TextButton(
+                  onPressed: () => Get.to(() => const LoginPage()),
+                  child: const Text("Login"),
+                ),
+              ],
             ),
           ],
         ),

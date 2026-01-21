@@ -20,31 +20,33 @@ class CheckOut extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
-          Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: const Color(0xff000000)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                3,
-                    (index) => Padding(
-                  padding: const EdgeInsets.all(2.5),
-                  child: Container(
-                    width: 4,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          IconButton(onPressed: (){}, icon: Icon(IconsaxPlusLinear.more_circle,size: 30,)),
+
+          // Container(
+          //   width: 30,
+          //   height: 30,
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(15),
+          //     border: Border.all(color: const Color(0xff000000)),
+          //   ),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: List.generate(
+          //       3,
+          //           (index) => Padding(
+          //         padding: const EdgeInsets.all(2.5),
+          //         child: Container(
+          //           width: 4,
+          //           height: 4,
+          //           decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(2),
+          //             color: Colors.black,
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(width: 16),
         ],
       ),

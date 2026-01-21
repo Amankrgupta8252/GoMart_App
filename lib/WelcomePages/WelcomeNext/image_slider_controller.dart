@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/AccountAuthentication/LoginPage/login_page.dart';
+import 'package:ecommerce_app/AccountAuthentication/signup_with.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,7 +35,7 @@ class ImageSliderController extends GetxController {
       );
     } else {
       /// ✅ Get Start → Login Page (no back)
-      Get.off(() => const LoginPage());
+      Get.off(() => const SignupWith());
     }
   }
 
