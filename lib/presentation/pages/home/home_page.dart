@@ -117,7 +117,7 @@ class HomePage extends StatelessWidget {
                     child: TextField(
                       readOnly: true,
                       onTap: () {
-                        Get.off( SearchKeybord());
+                        Get.to( SearchKeybord());
                       },
                       style: const TextStyle(
                         fontSize: 15,

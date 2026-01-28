@@ -13,30 +13,35 @@ class SearchKeybord extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-          // readOnly: true,
-          // onTap: () {
-          //   Get.to(() => SearchPage(),
-          //       transition: Transition.circularReveal,
-          //       duration: const Duration(seconds: 1));
-          // },
-          decoration: InputDecoration(
-            prefixIcon: const Icon(
-              IconsaxPlusLinear.search_normal_1,
-              color: Color(0xffb9b9b9),
+        automaticallyImplyLeading: false,
+        titleSpacing: 8,
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            // readOnly: true,
+            // onTap: () {
+            //   Get.to(() => SearchPage(),
+            //       transition: Transition.circularReveal,
+            //       duration: const Duration(seconds: 1));
+            // },
+            decoration: InputDecoration(
+              prefixIcon: const Icon(
+                IconsaxPlusLinear.search_normal_1,
+                color: Color(0xffb9b9b9),
+              ),
+              suffixIcon: const Icon(
+                PhosphorIconsBold.slidersHorizontal,
+                color: Color(0xffb9b9b9),
+              ),
+              hintText: 'Search for products...',
+              hintStyle: const TextStyle(color: Color(0xffb9b9b9)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+              filled: true,
+              fillColor: const Color(0xFFF3F3F3),
             ),
-            suffixIcon: const Icon(
-              PhosphorIconsBold.slidersHorizontal,
-              color: Color(0xffb9b9b9),
-            ),
-            hintText: 'Search for products...',
-            hintStyle: const TextStyle(color: Color(0xffb9b9b9)),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-            filled: true,
-            fillColor: const Color(0xFFF3F3F3),
           ),
         ),
       ),
