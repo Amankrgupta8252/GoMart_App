@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce_app/Pages/Categorys/category_product_page.dart';
+import 'package:ecommerce_app/presentation/pages/categories/category_product_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -68,6 +68,56 @@ class SpecialOffersController extends GetxController {
   }
 
   void onPageChanged(int index) => currentPage.value = index;
+
+  // Shimmer methods
+  Widget sliderShimmer() {
+    return SizedBox(
+      height: 200,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.grey.shade300,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget gridShimmer() {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 100,
+        mainAxisSpacing: 8,
+        mainAxisExtent: 90,
+      ),
+      itemCount: 10,
+      itemBuilder: (_, index) {
+        return Column(
+          children: [
+            Container(
+              width: 55,
+              height: 55,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                shape: BoxShape.circle,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Container(
+              height: 10,
+              width: 40,
+              color: Colors.grey.shade300,
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void onClose() {

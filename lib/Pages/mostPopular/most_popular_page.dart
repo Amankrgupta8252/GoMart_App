@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../Controllers/most_popular_controller.dart';
+import 'package:ecommerce_app/presentation/controllers/most_popular_controller.dart';
 import 'most_popular_detail_page.dart'; // Detail page import karein
 
 class MostPopularPage extends StatelessWidget {

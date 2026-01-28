@@ -1,6 +1,6 @@
+import 'package:ecommerce_app/presentation/controllers/greeting_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../Controllers/greeting_controller.dart';
 
 class GreetingPage extends StatelessWidget {
   GreetingPage({super.key});

@@ -1,11 +1,10 @@
 import 'package:ecommerce_app/Pages/mostPopular/most_popular_detail_page.dart';
 import 'package:ecommerce_app/Pages/mostPopular/most_popular_page.dart';
-import 'package:ecommerce_app/ShimmerAll/app_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:shimmer/shimmer.dart';
-import '../../Controllers/most_popular_controller.dart';
+import 'package:ecommerce_app/presentation/controllers/most_popular_controller.dart';
+import 'package:ecommerce_app/presentation/widgets/shimmers/app_shimmer.dart';
 
 
 class MostPopular extends StatelessWidget {
@@ -49,7 +48,6 @@ class MostPopular extends StatelessWidget {
       ],
 
     );
-
   }
 
   Widget productGrid() {

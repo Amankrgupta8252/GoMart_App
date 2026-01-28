@@ -1,13 +1,12 @@
 import 'package:ecommerce_app/Pages/CartPages/Cart_page.dart';
-import 'package:ecommerce_app/Pages/HomePage/home_page.dart';
+import 'package:ecommerce_app/presentation/controllers/bottom_nav_controller.dart';
+import 'package:ecommerce_app/presentation/pages/home/home_page.dart';
 import 'package:ecommerce_app/Pages/OrdersPages/top_nav.dart';
 import 'package:ecommerce_app/Pages/ProfilePages/profile_page.dart';
 import 'package:ecommerce_app/Pages/WalletPages/wallet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import '../Controllers/bottom_nav_controller.dart';
-
 
 class MainLayout extends StatelessWidget {
   MainLayout({super.key});

@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce_app/Pages/HomePage/greeting_page.dart';
-import 'package:ecommerce_app/Pages/HomePage/special_offers.dart';
-import 'package:ecommerce_app/Pages/wish_list.dart';
-import 'package:ecommerce_app/Pages/notification_page.dart';
-import 'package:ecommerce_app/Pages/search/search_keybord.dart';
-import 'package:ecommerce_app/ShimmerAll/app_shimmer.dart';
+import 'package:ecommerce_app/presentation/pages/home/greeting_page.dart';
+import 'package:ecommerce_app/presentation/pages/home/special_offers.dart';
+import 'package:ecommerce_app/presentation/pages/wishlist/wish_list.dart';
+import 'package:ecommerce_app/presentation/pages/notifications/notification_page.dart';
+import 'package:ecommerce_app/presentation/pages/search/search_keybord.dart';
+import 'package:ecommerce_app/presentation/widgets/shimmers/app_shimmer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -116,15 +117,7 @@ class HomePage extends StatelessWidget {
                     child: TextField(
                       readOnly: true,
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            transitionDuration: const Duration(
-                              milliseconds: 800,
-                            ),
-                            pageBuilder: (_, __, ___) => SearchKeybord(),
-                          ),
-                        );
+                        Get.off( SearchKeybord());
                       },
                       style: const TextStyle(
                         fontSize: 15,

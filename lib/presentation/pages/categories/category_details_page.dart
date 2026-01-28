@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecommerce_app/Controllers/product_controller.dart';
+import 'package:ecommerce_app/presentation/controllers/product_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -119,7 +119,7 @@ class CategoryDetailsPage extends StatelessWidget {
                       spacing: 10,
                       children: List.generate(
                         firebaseSizes.length,
-                        (index) => _buildChip(
+                            (index) => _buildChip(
                           firebaseSizes[index].toString(),
                           index,
                           controller.selectedSizeIndex,
@@ -141,7 +141,7 @@ class CategoryDetailsPage extends StatelessWidget {
                       spacing: 12,
                       children: List.generate(
                         firebaseColors.length,
-                        (index) => _buildColorCircle(
+                            (index) => _buildColorCircle(
                           firebaseColors[index].toString(),
                           index,
                           controller.selectedColorIndex,
@@ -209,7 +209,7 @@ class CategoryDetailsPage extends StatelessWidget {
     return GestureDetector(
       onTap: () => selectedProp.value = index,
       child: Obx(
-        () => Container(
+            () => Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           decoration: BoxDecoration(
             color: selectedProp.value == index
@@ -243,7 +243,7 @@ class CategoryDetailsPage extends StatelessWidget {
             icon: const Icon(Icons.remove, size: 20),
           ),
           Obx(
-            () => Text(
+                () => Text(
               "${controller.quantity.value}",
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
@@ -302,20 +302,20 @@ class CategoryDetailsPage extends StatelessWidget {
             backgroundColor: circleColor,
             child: isSelected
                 ? Icon(
-                    Icons.check,
-                    size: 18,
-                    color: circleColor == Colors.white
-                        ? Colors.black
-                        : Colors.white,
-                  )
+              Icons.check,
+              size: 18,
+              color: circleColor == Colors.white
+                  ? Colors.black
+                  : Colors.white,
+            )
                 : (circleColor == Colors.white
-                      ? Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.grey.shade300),
-                          ),
-                        )
-                      : null),
+                ? Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey.shade300),
+              ),
+            )
+                : null),
           ),
         );
       }),

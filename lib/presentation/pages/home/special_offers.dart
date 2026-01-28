@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce_app/Controllers/special_offers_controller.dart';
 import 'package:ecommerce_app/Pages/special_offer_page.dart';
-import 'package:ecommerce_app/ShimmerAll/app_shimmer.dart';
+import 'package:ecommerce_app/presentation/controllers/special_offers_controller.dart';
+import 'package:ecommerce_app/presentation/widgets/shimmers/app_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 import 'most_popular.dart';
 
 class SpecialOffers extends StatelessWidget {
@@ -56,25 +55,25 @@ class SpecialOffers extends StatelessWidget {
 
             /// DYNAMIC GRID (Categories from Firestore)
             Obx(
-              () =>
-                  controller.showGrid.value &&
-                      !controller.isCategoryLoading.value
+                  () =>
+              controller.showGrid.value &&
+                  !controller.isCategoryLoading.value
                   ? GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 100,
-                            mainAxisSpacing: 8,
-                            mainAxisExtent: 90,
-                          ),
-                      itemCount: controller.categoryList.length,
-                      itemBuilder: (_, index) {
-                        final brand = controller.categoryList[index];
-                        return _iconItem(brand);
-                      },
-                    )
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                gridDelegate:
+                const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 100,
+                  mainAxisSpacing: 8,
+                  mainAxisExtent: 90,
+                ),
+                itemCount: controller.categoryList.length,
+                itemBuilder: (_, index) {
+                  final brand = controller.categoryList[index];
+                  return _iconItem(brand);
+                },
+              )
                   : AppShimmer().gridShimmer(),
             ),
 
@@ -108,8 +107,8 @@ class SpecialOffers extends StatelessWidget {
 
   // Slider Widget
   Widget _buildSlider(
-    List<QueryDocumentSnapshot<Map<String, dynamic>>> offers,
-  ) {
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> offers,
+      ) {
     return Stack(
       children: [
         SizedBox(
@@ -139,7 +138,7 @@ class SpecialOffers extends StatelessWidget {
           left: 0,
           right: 0,
           child: Obx(
-            () => Row(
+                () => Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(offers.length, (dot) => _buildDot(dot)),
             ),

@@ -1,9 +1,9 @@
 import 'package:ecommerce_app/Pages/CartPages/check_out.dart';
+import 'package:ecommerce_app/presentation/controllers/cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-import '../../Controllers/cart_controller.dart';
 
 class CartPage extends StatelessWidget {
   CartPage({super.key});

@@ -1,6 +1,6 @@
+import 'package:ecommerce_app/presentation/controllers/image_slider_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../Controllers/image_slider_controller.dart';
 
 class ImageWithButtonSlider extends StatelessWidget {
   const ImageWithButtonSlider({super.key});

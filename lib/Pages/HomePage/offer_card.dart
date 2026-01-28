@@ -1,6 +1,6 @@
+import 'package:ecommerce_app/presentation/controllers/offer_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../Controllers/offer_card_controller.dart';
 
 class OfferCard extends StatelessWidget {
   OfferCard({super.key});

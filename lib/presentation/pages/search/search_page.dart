@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/Controllers/search_controller.dart';
+import 'package:ecommerce_app/presentation/controllers/search_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -204,156 +204,170 @@ class SearchPage extends StatelessWidget {
               minChildSize: 0.4,
               maxChildSize: 0.95,
               builder: (context, scrollController) {
-                return Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      /// ⬆️ DRAG HANDLE
-                      Center(
-                        child: Container(
-                          width: 40,
-                          height: 4,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(2),
-                          ),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// ⬆️ DRAG HANDLE
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(2),
                         ),
                       ),
+                    ),
 
-                      const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                      const Center(
-                        child: Text(
-                          'Sort & Filter',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    const Center(
+                      child: Text(
+                        'Sort & Filter',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
+                    ),
 
-                      const SizedBox(height: 16),
-                      Divider(color: Colors.grey.shade400),
+                    const SizedBox(height: 16),
+                    Divider(color: Colors.grey.shade400),
 
-                      /// 📂 CATEGORIES
-                      const SizedBox(height: 24),
-                      const Text(
+                    /// 📂 CATEGORIES
+                    const SizedBox(height: 24),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: const Text(
                         "Categories",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(height: 24),
+                    ),
 
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(category.length, (index) {
-                            return Container(
-                              margin: const EdgeInsets.only(right: 8),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.black),
-                              ),
-                              child: Text(category[index]),
-                            );
-                          }),
-                        ),
+                    SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.all(16),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        
+                        children: List.generate(category.length, (index) {
+                          return Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: Colors.black),
+                            ),
+                            child: Text(category[index]),
+                          );
+                        }),
                       ),
+                    ),
 
-                      /// 💰 PRICE RANGE
-                      const SizedBox(height: 24),
-                      const Text(
+                    /// 💰 PRICE RANGE
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: const Text(
                         "Price Range",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
+                    ),
 
-                      RangeSlider(
-                        values: priceRange,
-                        min: 1,
-                        max: 100,
-                        divisions: 100,
-                        labels: RangeLabels(
-                          "\$${priceRange.start.round()}",
-                          "\$${priceRange.end.round()}",
-                        ),
-                        onChanged: (value) {
-                          setModalState(() {
-                            priceRange = value;
-                          });
-                        },
+                    RangeSlider(
+                      values: priceRange,
+                      min: 1,
+                      max: 100,
+                      divisions: 100,
+                      labels: RangeLabels(
+                        "\$${priceRange.start.round()}",
+                        "\$${priceRange.end.round()}",
                       ),
+                      onChanged: (value) {
+                        setModalState(() {
+                          priceRange = value;
+                        });
+                      },
+                    ),
 
-                      /// 🔽 SORT BY
-                      const SizedBox(height: 20),
-                      const Text(
+                    /// 🔽 SORT BY
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: const Text(
                         "Sort By",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
+                    ),
 
-                      const SizedBox(height: 24),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(sortBy.length, (index) {
-                            return Container(
-                              margin: const EdgeInsets.only(right: 8),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.black),
-                              ),
-                              child: Text(sortBy[index]),
-                            );
-                          }),
-                        ),
+                    const SizedBox(height: 24),
+                    SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.all(8),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(sortBy.length, (index) {
+                          return Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: Colors.black),
+                            ),
+                            child: Text(sortBy[index]),
+                          );
+                        }),
                       ),
+                    ),
 
-                      /// ⭐ RATING
-                      const SizedBox(height: 24),
-                      const Text(
+                    /// ⭐ RATING
+                    const SizedBox(height: 24),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: const Text(
                         "Rating",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
+                    ),
 
-                      const SizedBox(height: 12),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(rating.length, (index) {
-                            return Container(
-                              margin: const EdgeInsets.only(right: 8),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.black),
-                              ),
-                              child: Text(rating[index]),
-                            );
-                          }),
-                        ),
+                    const SizedBox(height: 12),
+                    SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.all(8),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(rating.length, (index) {
+                          return Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: Colors.black),
+                            ),
+                            child: Text(rating[index]),
+                          );
+                        }),
                       ),
+                    ),
 
-                      const SizedBox(height: 24),
-                      Divider(color: Colors.grey.shade400),
+                    const SizedBox(height: 24),
+                    Divider(color: Colors.grey.shade400),
 
-                      /// 🔘 BUTTONS
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _bottomButton("Reset", Colors.black, Colors.white),
-                          const SizedBox(width: 20),
-                          _bottomButton("Apply", Colors.grey, Colors.black),
-                        ],
-                      ),
-                    ],
-                  ),
+                    /// 🔘 BUTTONS
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _bottomButton("Reset", Colors.black, Colors.white),
+                        const SizedBox(width: 20),
+                        _bottomButton("Apply", Colors.grey, Colors.black),
+                      ],
+                    ),
+                  ],
                 );
               },
             );

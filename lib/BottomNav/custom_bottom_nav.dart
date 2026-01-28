@@ -1,10 +1,10 @@
 import 'package:ecommerce_app/Pages/CartPages/Cart_page.dart';
-import 'package:ecommerce_app/Pages/HomePage/home_page.dart';
+import 'package:ecommerce_app/presentation/controllers/bottom_nav_controller.dart';
+import 'package:ecommerce_app/presentation/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import '../Controllers/bottom_nav_controller.dart';
 
 class CustomBottomNav extends StatelessWidget {
   CustomBottomNav({super.key});

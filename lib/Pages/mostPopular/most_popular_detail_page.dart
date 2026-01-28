@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecommerce_app/presentation/controllers/most_popular_detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../Controllers/most_popular_detail_controller.dart';
 
 class MostPopularDetailPage extends StatelessWidget {
   final Map<String, String> item;

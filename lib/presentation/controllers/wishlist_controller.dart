@@ -1,6 +1,17 @@
 import 'package:get/get.dart';
 
 class WishListController extends GetxController {
+  var wishlistItems = <Map<String, dynamic>>[].obs;
+
+  void removeFromWishlist(dynamic item) {
+    wishlistItems.remove(item);
+  }
+
+  void addToCart(dynamic item) {
+    // Add to cart logic here
+    print('Added to cart: ');
+  }
+
   var selectedIndex = 0.obs;
 
   final List<String> itemType = [
@@ -112,3 +123,4 @@ class WishListController extends GetxController {
     selectedIndex.value = index;
   }
 }
+

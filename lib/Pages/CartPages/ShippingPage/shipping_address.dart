@@ -1,7 +1,7 @@
+import 'package:ecommerce_app/presentation/controllers/shipping_address_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Controllers/shipping_address_controller.dart';
 
 class ShippingAddress extends StatelessWidget {
   ShippingAddress({super.key});
