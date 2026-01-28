@@ -1,7 +1,5 @@
 import 'package:ecommerce_app/AccountAuthentication/AccountSetup/fill_your_profile.dart';
 import 'package:ecommerce_app/AccountAuthentication/ForgotPassword/forgot_page.dart';
-import 'package:ecommerce_app/BottomNav/main_layout.dart';
-import 'package:ecommerce_app/HomePage/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'Data_server/auth_service.dart';
@@ -34,8 +32,6 @@ class _LoginPageState extends State<LoginPage> {
 
     if (success) {
       Get.offAll(() => FillYourProfile());
-      // agar profile fill karwana hai to:
-      // Get.offAll(() => const FillYourProfile());
     } else {
       showMessage("Invalid Email or Password ❌");
     }

@@ -47,6 +47,8 @@ dependencies:
   firebase_auth: ^6.1.4
   flutter_facebook_auth: ^7.1.5
   cloud_firestore: ^6.1.2
+  shimmer: ^3.0.0
+  shimmer_animation: ^2.2.2+1
 
 dev_dependencies:
   flutter_test:

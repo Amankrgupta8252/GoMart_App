@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/AccountAuthentication/LoginPage/login_page.dart';
 import 'package:ecommerce_app/AccountAuthentication/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,20 +19,19 @@ class SignupWith extends StatelessWidget {
             children: [
               SizedBox(
                 width: double.infinity,
-                height: 200,
                 child: Image.network(
                   "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQzFqT8rHedaZe-GK-e6H004W7IsuU3FHK8zE8VUr2Fg2zzaPI9",
                   fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 8),
 
               const Text(
                 "Let's you in",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 8),
 
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -45,21 +45,18 @@ class SignupWith extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 16),
-
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: socialButton(
                   text: "Continue with Facebook",
                   image:
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJnrq3V01lH2NfWrH8aRDp9OUJupGWBRk6jA&s",
-                  onTap: () {
-                    // baad me
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJnrq3V01lH2NfWrH8aRDp9OUJupGWBRk6jA&s",
+                  onTap: () async {
+                    await auth.facebookSignIn();
                   },
                 ),
               ),
 
-              const SizedBox(height: 16),
 
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -73,14 +70,12 @@ class SignupWith extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 8),
 
               const Text(
                 "or",
                 style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
-
-              const SizedBox(height: 30),
 
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -95,7 +90,7 @@ class SignupWith extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      // email/password page
+                      Get.to(LoginPage());
                     },
                     child: const Text(
                       "Sign in with password",
