@@ -1,184 +1,63 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class MostPopularController extends GetxController {
-  // --- Observables ---
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+
   var selectedIndex = 0.obs;
-  var isLoadingProducts = false.obs;
+  var isLoadingProducts = true.obs;
 
-  // Categories List
-  final List<String> itemType = [
-    " All ", "Clothes", "Shoes", "Bag", "Bottle", "Watch", "Jewelry", "Electronics",
-  ];
+  var allProducts = <Map<String, dynamic>>[].obs;
+  var filteredProducts = <Map<String, dynamic>>[].obs;
 
-  // Product Data
-  final List<Map<String, String>> images = [
-    {
-      "image": "https://miro.medium.com/v2/resize:fit:1100/format:webp/0*f8p_nFCjZwsaTS-M",
-      "title": "Snake Leather Bag",
-      "rate": "4.5",
-      "sold": "8,374 sold",
-      "price": "\$445.00",
-    },
-    {
-      "image": "https://images.unsplash.com/photo-1626947346165-4c2288dadc2a",
-      "title": "Suga Leather Shoes",
-      "rate": "4.7",
-      "sold": "7,483 sold",
-      "price": "\$375.00",
-    },
-    {
-      "image": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSJIUF7LejgnSF9PvSJanKfNhRMw2Nq6CVaaZs5B99BT0OIVwD7",
-      "title": "Leather Casual Suit",
-      "rate": "4.3",
-      "sold": "6,937 sold",
-      "price": "\$420.00",
-    },
-    {
-      "image": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTHcinNTFDvJLaRlxXvzMN7o2uWABf7wCcWXHkiT94TmKY3nz6Y",
-      "title": "Black Leather Bag",
-      "rate": "4.9",
-      "sold": "8,174 sold",
-      "price": "\$765.00",
-    },
-    {
-      "image":
-      "https://miro.medium.com/v2/resize:fit:1100/format:webp/0*f8p_nFCjZwsaTS-M",
-      "title": "Snake Leather Bag",
-      "rate": "4.5",
-      "sold": "8,374",
-      "price": "\$445.00",
-    },
-    {
-      "image": "https://images.unsplash.com/photo-1626947346165-4c2288dadc2a",
-      "title": "Suga Leather Shoes",
-      "rate": "4.7",
-      "sold": "7,483",
-      "price": "\$375.00",
-    },
-    {
-      "image":
-      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSJIUF7LejgnSF9PvSJanKfNhRMw2Nq6CVaaZs5B99BT0OIVwD7",
-      "title": "Leather Casual Suit",
-      "rate": "4.3",
-      "sold": "6,937",
-      "price": "\$420.00",
-    },
-    {
-      "image":
-      "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTHcinNTFDvJLaRlxXvzMN7o2uWABf7wCcWXHkiT94TmKY3nz6Y",
-      "title": "Black Leather Bag",
-      "rate": "4.9",
-      "sold": "8,174",
-      "price": "\$765.00",
-    },
-    {
-      "image":
-      "https://miro.medium.com/v2/resize:fit:1100/format:webp/0*f8p_nFCjZwsaTS-M",
-      "title": "Snake Leather Bag",
-      "rate": "4.5",
-      "sold": "8,374",
-      "price": "\$445.00",
-    },
-    {
-      "image": "https://images.unsplash.com/photo-1626947346165-4c2288dadc2a",
-      "title": "Suga Leather Shoes",
-      "rate": "4.7",
-      "sold": "7,483",
-      "price": "\$375.00",
-    },
-    {
-      "image":
-      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSJIUF7LejgnSF9PvSJanKfNhRMw2Nq6CVaaZs5B99BT0OIVwD7",
-      "title": "Leather Casual Suit",
-      "rate": "4.3",
-      "sold": "6,937",
-      "price": "\$420.00",
-    },
-    {
-      "image":
-      "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTHcinNTFDvJLaRlxXvzMN7o2uWABf7wCcWXHkiT94TmKY3nz6Y",
-      "title": "Black Leather Bag",
-      "rate": "4.9",
-      "sold": "8,174",
-      "price": "\$765.00",
-    },
-    {
-      "image":
-      "https://miro.medium.com/v2/resize:fit:1100/format:webp/0*f8p_nFCjZwsaTS-M",
-      "title": "Snake Leather Bag",
-      "rate": "4.5",
-      "sold": "8,374",
-      "price": "\$445.00",
-    },
-    {
-      "image": "https://images.unsplash.com/photo-1626947346165-4c2288dadc2a",
-      "title": "Suga Leather Shoes",
-      "rate": "4.7",
-      "sold": "7,483",
-      "price": "\$375.00",
-    },
-    {
-      "image":
-      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSJIUF7LejgnSF9PvSJanKfNhRMw2Nq6CVaaZs5B99BT0OIVwD7",
-      "title": "Leather Casual Suit",
-      "rate": "4.3",
-      "sold": "6,937",
-      "price": "\$420.00",
-    },
-    {
-      "image":
-      "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTHcinNTFDvJLaRlxXvzMN7o2uWABf7wCcWXHkiT94TmKY3nz6Y",
-      "title": "Black Leather Bag",
-      "rate": "4.9",
-      "sold": "8,174",
-      "price": "\$765.00",
-    },
-    {
-      "image":
-      "https://miro.medium.com/v2/resize:fit:1100/format:webp/0*f8p_nFCjZwsaTS-M",
-      "title": "Snake Leather Bag",
-      "rate": "4.5",
-      "sold": "8,374",
-      "price": "\$445.00",
-    },
-    {
-      "image": "https://images.unsplash.com/photo-1626947346165-4c2288dadc2a",
-      "title": "Suga Leather Shoes",
-      "rate": "4.7",
-      "sold": "7,483",
-      "price": "\$375.00",
-    },
-    {
-      "image":
-      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSJIUF7LejgnSF9PvSJanKfNhRMw2Nq6CVaaZs5B99BT0OIVwD7",
-      "title": "Leather Casual Suit",
-      "rate": "4.3",
-      "sold": "6,937",
-      "price": "\$420.00",
-    },
-    {
-      "image":
-      "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTHcinNTFDvJLaRlxXvzMN7o2uWABf7wCcWXHkiT94TmKY3nz6Y",
-      "title": "Black Leather Bag",
-      "rate": "4.9",
-      "sold": "8,174",
-      "price": "\$765.00",
-    },
-  ];
+  final List<String> itemType = ["All", "Shoes", "Bags", "Watch", "Clothes"];
 
-  void changeIndex(int index) async {
-    if (selectedIndex.value == index) return;
-
-    selectedIndex.value = index;
-    isLoadingProducts.value = true;
-
-    await Future.delayed(const Duration(milliseconds: 800));
-
-    isLoadingProducts.value = false;
+  @override
+  void onInit() {
+    super.onInit();
+    fetchProducts();
   }
-  void changeCategory(int index) {
 
+  // Firebase Firestore se data fetch karna
+  void fetchProducts() async {
+    try {
+      isLoadingProducts.value = true;
+
+      // 'products' collection se data stream/get karna
+      _db.collection('products').snapshots().listen((snapshot) {
+        var tempList = snapshot.docs.map((doc) {
+          return {
+            "id": doc.id,
+            ...doc.data(),
+          };
+        }).toList();
+
+        allProducts.assignAll(tempList);
+
+        // Initial load par filtered list update karna
+        applyFilter();
+        isLoadingProducts.value = false;
+      });
+    } catch (e) {
+      isLoadingProducts.value = false;
+      Get.snackbar("Error", "Data nahi mil raha: $e");
+    }
+  }
+
+  void changeIndex(int index) {
     selectedIndex.value = index;
+    applyFilter();
+  }
 
+  void applyFilter() {
+    String category = itemType[selectedIndex.value];
+    if (category == "All") {
+      filteredProducts.assignAll(allProducts);
+    } else {
+      var filtered = allProducts.where((p) {
+        return p["category"].toString().toLowerCase() == category.toLowerCase();
+      }).toList();
+      filteredProducts.assignAll(filtered);
+    }
   }
 }

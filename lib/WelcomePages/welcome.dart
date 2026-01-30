@@ -69,7 +69,7 @@ class _WelcomeState extends State<Welcome> {
                     ),
 
                     Text(
-                      'Aman',
+                      'GoMart',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 80,

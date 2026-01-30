@@ -8,110 +8,131 @@ class TrackOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xfff8f8f8), // Light background for better contrast
       appBar: AppBar(
         centerTitle: false,
-        title: const Text("Track Order"),
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent, // 👈 Isse color change hona band ho jayega
+        elevation: 0,
+        title: const Text(
+          "Track Order",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: [
-          IconButton(onPressed: (){}, icon: const Icon(IconsaxPlusBroken.search_normal),),
-          SizedBox(width: 10,)
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(IconsaxPlusBroken.search_normal),
+          ),
+          const SizedBox(width: 10)
         ],
-
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // --- PRODUCT INFO CARD ---
               Container(
                 width: double.infinity,
-                // height: 150,
-                
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16)
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 5),
+                      )
+                    ]
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: Row(
-
                     children: [
-
-                      Expanded(
-                        child: Container(
-
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcS4J5psHgg7ucQ-664XccsQAFWAzgds6D5Gm3KMALMFlSG5d-Er",
+                          fit: BoxFit.cover,
                           height: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-
-                          ),
-                          child: Image.network("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcS4J5psHgg7ucQ-664XccsQAFWAzgds6D5Gm3KMALMFlSG5d-Er",fit: BoxFit.cover, width: double.infinity,),
+                          width: 100,
                         ),
                       ),
-                      SizedBox(width: 10,),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-
-                          Text("Suga Leather Shoes", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                          Row(
-                            children: [
-                              Container(
-                                width: 15,
-                                height: 15,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.brown
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Suga Leather Shoes",
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 12,
+                                  height: 12,
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.brown
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              const Text("Color"),
-                              const SizedBox(width: 12),
-                              const Text("|"),
-                              const SizedBox(width: 12),
-                              Text("Size: M"),
-                              const SizedBox(width: 12),
-                              const Text("|"),
-                              const SizedBox(width: 12),
-                              Text("Qty: 1"),
-                            ],
-                          ),
-                          Text("\$375.00", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)
-                        ],
+                                const SizedBox(width: 6),
+                                const Text("Color | Size: M | Qty: 1",
+                                    style: TextStyle(color: Colors.grey, fontSize: 13)
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            const Text(
+                              "\$375.00",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),
                 ),
               ),
-              Divider(),
 
+              const SizedBox(height: 24),
+
+              // --- TRACKING BAR (Horizontal Timeline) ---
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: TrackBar(),
               ),
-              const SizedBox(height: 20,),
-              const Text("Packet In Delivery", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
 
-              Divider(),
-              
-              SizedBox(height: 20,),
-
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Order Status Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                  const SizedBox(height: 20,),
-                  const Tracking(),
-                ],
+              const SizedBox(height: 24),
+              const Center(
+                child: Text(
+                  "Packet In Delivery",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
               ),
 
-              Divider(indent: 10, endIndent: 10,)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Divider(thickness: 1),
+              ),
+
+              // --- ORDER STATUS LIST ---
+              const Text(
+                "Order Status Details",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+
+              const Tracking(), // Verticle Timeline
+
+              const SizedBox(height: 30),
             ],
           ),
         ),
-            
-      )
+      ),
     );
   }
 }

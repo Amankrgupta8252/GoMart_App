@@ -6,6 +6,7 @@ import 'package:ecommerce_app/presentation/controllers/bottom_nav_controller.dar
 import 'package:ecommerce_app/presentation/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class MainLayout extends StatelessWidget {
@@ -50,11 +51,11 @@ class MainLayout extends StatelessWidget {
             showUnselectedLabels: true,
             onTap: controller.changeIndex,
             items: const [
-              BottomNavigationBarItem(icon: Icon(PhosphorIconsFill.house), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(Icons.card_travel), label: 'Cart'),
-              BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Order'),
-              BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), label: 'Wallet'),
-              BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
+              BottomNavigationBarItem(icon: Icon(IconsaxPlusBold.home_2), label: 'Home'),
+              BottomNavigationBarItem(icon: Icon(IconsaxPlusBold.bag_2), label: 'Cart'),
+              BottomNavigationBarItem(icon: Icon(IconsaxPlusBold.shopping_cart), label: 'Order'),
+              BottomNavigationBarItem(icon: Icon(IconsaxPlusBold.wallet_2), label: 'Wallet'),
+              BottomNavigationBarItem(icon: Icon(IconsaxPlusBold.profile), label: 'Profile'),
             ],
           ),
         ),

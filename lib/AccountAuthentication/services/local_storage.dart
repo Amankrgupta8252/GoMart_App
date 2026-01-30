@@ -18,4 +18,14 @@ class LocalStorage {
   static String getMethod() => _storage.read(keyLoginMethod) ?? '';
 
   static void clear() => _storage.erase();
+
+  // local_storage.dart mein add karein
+  // Optimized methods
+  static bool isFirstTime() {
+    return _storage.read('isFirstTime') ?? true;
+  }
+
+  static void setFirstTimeFalse() {
+    _storage.write('isFirstTime', false);
+  }
 }

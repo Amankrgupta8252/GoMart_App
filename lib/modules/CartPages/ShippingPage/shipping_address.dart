@@ -14,6 +14,9 @@ class ShippingAddress extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
         title: const Text(
           "Shipping Address",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),

@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_app/presentation/controllers/product_controller.dart';
+import 'package:ecommerce_app/presentation/controllers/wishlist_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CategoryDetailsPage extends StatelessWidget {
   final Map<String, dynamic> item;
   final String heroTag;
-  final controller = Get.find<ProductController>();
+  final controller = Get.put(ProductController());
+  final wishlistController = Get.put(WishlistController());
 
   Color getColorFromName(String colorName) {
     switch (colorName.toLowerCase().trim()) {
@@ -89,7 +91,31 @@ class CategoryDetailsPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const Icon(Icons.favorite_border, size: 28),
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: Obx(() {
+                          bool isFav = wishlistController.isFavorite(
+                            item['id'],
+                          );
+                          return GestureDetector(
+                            onTap: () =>
+                                wishlistController.toggleWishlist(item),
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: const BoxDecoration(
+                                color: Colors.black26,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                isFav ? Icons.favorite : Icons.favorite_border,
+                                color: isFav ? Colors.white : Colors.black,
+                                size: 20,
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -119,7 +145,7 @@ class CategoryDetailsPage extends StatelessWidget {
                       spacing: 10,
                       children: List.generate(
                         firebaseSizes.length,
-                            (index) => _buildChip(
+                        (index) => _buildChip(
                           firebaseSizes[index].toString(),
                           index,
                           controller.selectedSizeIndex,
@@ -141,7 +167,7 @@ class CategoryDetailsPage extends StatelessWidget {
                       spacing: 12,
                       children: List.generate(
                         firebaseColors.length,
-                            (index) => _buildColorCircle(
+                        (index) => _buildColorCircle(
                           firebaseColors[index].toString(),
                           index,
                           controller.selectedColorIndex,
@@ -150,21 +176,6 @@ class CategoryDetailsPage extends StatelessWidget {
                     ),
                   ],
                   const SizedBox(height: 20),
-                  // Row(
-                  //   children: [
-                  //     Expanded(
-                  //       child: const Text(
-                  //         "Quantity",
-                  //         style: TextStyle(
-                  //           fontSize: 18,
-                  //           fontWeight: FontWeight.bold,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     // const SizedBox(height: 10),
-                  //     // _buildQtySelector(),
-                  //   ],
-                  // ),
                 ],
               ),
             ),
@@ -182,24 +193,19 @@ class CategoryDetailsPage extends StatelessWidget {
   Widget _buildRatingRow() {
     return Row(
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text(
-            "${item['sold']} sold",
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-        const SizedBox(width: 10),
         const Icon(Icons.star, color: Colors.amber, size: 20),
         Text(
           " ${item['rate']} (${item['reviews']} reviews)",
           style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
+        const Text("|"),
+        const SizedBox(width: 10),
+        Text(
+          "${item['sold']} sold",
+          style: const TextStyle(color: Colors.grey),
+        ),
+        const Spacer(), // 👈 Ye quantity selector ko right side push kar dega
         _buildQtySelector(),
       ],
     );
@@ -209,7 +215,7 @@ class CategoryDetailsPage extends StatelessWidget {
     return GestureDetector(
       onTap: () => selectedProp.value = index,
       child: Obx(
-            () => Container(
+        () => Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           decoration: BoxDecoration(
             color: selectedProp.value == index
@@ -231,26 +237,44 @@ class CategoryDetailsPage extends StatelessWidget {
 
   Widget _buildQtySelector() {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(20),
+        color: Colors.grey.shade100, // Light background
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: Colors.grey.shade300), // Subtle border
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          IconButton(
-            onPressed: controller.decreaseQty,
-            icon: const Icon(Icons.remove, size: 20),
-          ),
-          Obx(
-                () => Text(
-              "${controller.quantity.value}",
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          // Decrease Button
+          GestureDetector(
+            onTap: controller.decreaseQty,
+            child: CircleAvatar(
+              radius: 14,
+              backgroundColor: Colors.white,
+              child: Icon(Icons.remove, size: 16, color: Colors.black),
             ),
           ),
-          IconButton(
-            onPressed: controller.increaseQty,
-            icon: const Icon(Icons.add, size: 20),
+
+          // Quantity Text
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Obx(
+                  () => Text(
+                "${controller.quantity.value}",
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+
+          // Increase Button
+          GestureDetector(
+            onTap: controller.increaseQty,
+            child: CircleAvatar(
+              radius: 14,
+              backgroundColor: Colors.black, // Dark background for contrast
+              child: Icon(Icons.add, size: 16, color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -302,20 +326,20 @@ class CategoryDetailsPage extends StatelessWidget {
             backgroundColor: circleColor,
             child: isSelected
                 ? Icon(
-              Icons.check,
-              size: 18,
-              color: circleColor == Colors.white
-                  ? Colors.black
-                  : Colors.white,
-            )
+                    Icons.check,
+                    size: 18,
+                    color: circleColor == Colors.white
+                        ? Colors.black
+                        : Colors.white,
+                  )
                 : (circleColor == Colors.white
-                ? Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.grey.shade300),
-              ),
-            )
-                : null),
+                      ? Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.grey.shade300),
+                          ),
+                        )
+                      : null),
           ),
         );
       }),

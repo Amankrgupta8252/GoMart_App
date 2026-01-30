@@ -141,39 +141,55 @@ class TrackBar extends StatelessWidget {
   final List<Track> track = <Track>[
     Track(icon: IconsaxPlusBold.box, isC: true),
     Track(icon: IconsaxPlusBold.truck, isC: true),
-    Track(icon: CupertinoIcons.group, isC: false),
-    Track(icon: Icons.add_box_outlined, isC: false),
+    Track(icon: IconsaxPlusBold.truck_fast, isC: false), // Icon change for delivery
+    Track(icon: IconsaxPlusBold.box_tick, isC: false), // Icon change for finished
   ];
+
   TrackBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: List.generate(track.length * 2 - 1, (i) {
-        if (i.isEven) {
-          final data = track[i ~/ 2];
-          return Center(
-            child: Column(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+        children: List.generate(track.length, (index) {
+          final data = track[index];
+          return Expanded(
+            child: Row(
               children: [
-                Icon(data.icon),
-                const SizedBox(height: 6),
-                Icon(
-                  CupertinoIcons.checkmark_circle_fill,
-                  color: data.isC ? Colors.black : Colors.grey,
+                /// ICON + CHECKMARK COLUMN
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      data.icon,
+                      color: data.isC ? Colors.black : Colors.grey[400],
+                      size: 28,
+                    ),
+                    const SizedBox(height: 8),
+                    Icon(
+                      Icons.check_circle,
+                      color: data.isC ? Colors.black : Colors.grey[300],
+                      size: 20,
+                    ),
+                  ],
                 ),
+
+                if (index != track.length - 1)
+                  Expanded(
+                    child: Container(
+                      height: 2,
+                      color: track[index + 1].isC ? Colors.black : Colors.grey[300],
+                      margin: const EdgeInsets.only(top: 36),
+                    ),
+                  ),
               ],
             ),
           );
-        } else {
-          final next = track[(i ~/ 2) + 1];
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-            height: 2,
-            width: 40,
-            color: next.isC ? Colors.black : Colors.grey,
-          );
-        }
-      }),
+        }),
+      ),
     );
   }
 }

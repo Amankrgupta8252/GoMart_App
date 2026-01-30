@@ -3,6 +3,8 @@ import 'package:ecommerce_app/AccountAuthentication/signup_with.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../AccountAuthentication/services/local_storage.dart';
+
 class ImageSliderController extends GetxController {
   final PageController pageController = PageController();
   final currentPage = 0.obs;
@@ -34,9 +36,8 @@ class ImageSliderController extends GetxController {
         curve: Curves.easeInOut,
       );
     } else {
-      /// ✅ Get Start → Login Page (no back)
-      // Get.off(() => const SignupWith());
-      Get.to(SignupWith());
+      LocalStorage.setFirstTimeFalse();
+      Get.off(SignupWith());
     }
   }
 

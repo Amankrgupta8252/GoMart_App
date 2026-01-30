@@ -14,6 +14,9 @@ class SpecialOffersController extends GetxController {
   var isCategoryLoading = true.obs;
   var categoryList = <BrandModel>[].obs;
 
+  // Timer for auto-scroll
+  Timer? _timer;
+
   @override
   void onInit() {
     super.onInit();
@@ -34,6 +37,12 @@ class SpecialOffersController extends GetxController {
       }).toList();
 
       categoryList.assignAll(fetched);
+
+      // Data load hone ke baad auto-scroll start karein
+      if (categoryList.isNotEmpty) {
+        _startAutoScroll();
+      }
+
     } catch (e) {
       debugPrint("Error fetching categories: $e");
     } finally {
@@ -41,9 +50,31 @@ class SpecialOffersController extends GetxController {
     }
   }
 
+  // --- AUTO SCROLL LOGIC ---
+  void _startAutoScroll() {
+    _timer?.cancel(); // Purana timer clear karein
+    _timer = Timer.periodic(const Duration(seconds: 4), (timer) {
+      if (pageController.hasClients && categoryList.isNotEmpty) {
+        int nextPage = currentPage.value + 1;
+
+        // Agar last item par hain toh 0 par wapas jayein
+        if (nextPage >= categoryList.length) {
+          nextPage = 0;
+        }
+
+        pageController.animateToPage(
+          nextPage,
+          duration: const Duration(milliseconds: 1000),
+          curve: Curves.fastOutSlowIn,
+        );
+      }
+    });
+  }
+
+  void onPageChanged(int index) => currentPage.value = index;
+
   void navigateToCategory(String title, String key) {
     String cleanKey = key.replaceAll('_page', '');
-
     Get.to(() => CategoryProductPage(
       title: title,
       categoryKey: cleanKey,
@@ -67,9 +98,7 @@ class SpecialOffersController extends GetxController {
     });
   }
 
-  void onPageChanged(int index) => currentPage.value = index;
-
-  // Shimmer methods
+  // --- SHIMMERS ---
   Widget sliderShimmer() {
     return SizedBox(
       height: 200,
@@ -108,11 +137,7 @@ class SpecialOffersController extends GetxController {
               ),
             ),
             const SizedBox(height: 6),
-            Container(
-              height: 10,
-              width: 40,
-              color: Colors.grey.shade300,
-            ),
+            Container(height: 10, width: 40, color: Colors.grey.shade300),
           ],
         );
       },
@@ -121,12 +146,12 @@ class SpecialOffersController extends GetxController {
 
   @override
   void onClose() {
+    _timer?.cancel(); // Timer band karna bohot zaruri hai
     pageController.dispose();
     super.onClose();
   }
 }
 
-// Data Model
 class BrandModel {
   final String title;
   final IconData icon;

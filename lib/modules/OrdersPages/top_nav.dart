@@ -22,13 +22,11 @@ class TopNav extends StatelessWidget {
               onPressed: () {},
               icon: const Icon(IconsaxPlusBroken.search_normal),
             ),
-            // const SizedBox(width: 16),
             IconButton(onPressed: (){}, icon: Icon(IconsaxPlusLinear.more_circle,size: 30,)),
 
             const SizedBox(width: 16),
           ],
 
-          /// ✅ TAB BAR INSIDE SAME APP BAR
           bottom: const PreferredSize(
             preferredSize: Size.fromHeight(40),
             child: TabBar(

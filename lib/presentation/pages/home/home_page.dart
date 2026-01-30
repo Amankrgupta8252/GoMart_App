@@ -59,11 +59,11 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     children: [
                       CircleAvatar(
-                        // radius: 60,
+                        // radius: 20,
                         backgroundColor: Colors.grey.shade200,
                         backgroundImage: NetworkImage(
-                          userData['photo'] ??
-                              "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+                          (userData['photo'] == null || userData['photo'] == "") ? "https://cdn-icons-png.flaticon.com/512/149/149071.png" : userData['photo']
+                          ,
                         ),
                       ),
                       const SizedBox(width: 10),

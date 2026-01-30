@@ -4,21 +4,17 @@ import 'package:ecommerce_app/modules/main_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'AccountAuthentication/services/local_storage.dart';
 import 'firebase_options.dart';
 
-
 Future<String> getInitialRoute() async {
-  // GetStorage se check karein
+  bool isFirstTime = LocalStorage.isFirstTime();
   bool isLoggedIn = LocalStorage.isLoggedIn();
 
-  print("App Start - User Logged In: $isLoggedIn");
-
-  if (isLoggedIn) {
+  if (isFirstTime) {
+    return "/welcome";
+  } else if (isLoggedIn) {
     return "/mainlayout";
   } else {
     return "/login";
@@ -27,11 +23,8 @@ Future<String> getInitialRoute() async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // GetStorage ko init karna zaroori hai
   await GetStorage.init();
 
   runApp(const MyApp());
@@ -50,7 +43,9 @@ class MyApp extends StatelessWidget {
           return const MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(
-              body: Center(child: CircularProgressIndicator(color: Colors.black)),
+              body: Center(
+                child: CircularProgressIndicator(color: Colors.black),
+              ),
             ),
           );
         }

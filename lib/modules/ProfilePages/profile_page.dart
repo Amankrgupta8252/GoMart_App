@@ -26,6 +26,9 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
         title: const Text(
           "Profile",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -74,8 +77,8 @@ class ProfilePage extends StatelessWidget {
                           radius: 60,
                           backgroundColor: Colors.grey.shade200,
                           backgroundImage: NetworkImage(
-                            userData['photo'] ??
-                                "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+                            (userData['photo'] == null || userData['photo'] == "") ? "https://cdn-icons-png.flaticon.com/512/149/149071.png" : userData['photo']
+                            ,
                           ),
                         ),
                         Positioned(

@@ -24,34 +24,11 @@ class WalletPage extends StatelessWidget {
             icon: const Icon(IconsaxPlusBroken.search_normal),
           ),
 
-          IconButton(onPressed: (){}, icon: Icon(IconsaxPlusLinear.more_circle,size: 30,)),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(IconsaxPlusLinear.more_circle, size: 30),
+          ),
 
-          // const SizedBox(width: 16),
-          // Container(
-          //   width: 30,
-          //   height: 30,
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.circular(15),
-          //     border: Border.all(color: Colors.black),
-          //   ),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: List.generate(
-          //       3,
-          //       (index) => Padding(
-          //         padding: const EdgeInsets.all(2.5),
-          //         child: Container(
-          //           width: 4,
-          //           height: 4,
-          //           decoration: BoxDecoration(
-          //             color: Colors.black,
-          //             borderRadius: BorderRadius.circular(2),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
           const SizedBox(width: 16),
         ],
       ),
@@ -274,7 +251,6 @@ class TransactionHistory extends StatelessWidget {
                               "${item["date"]} | ${item["time"]}",
                               style: const TextStyle(color: Colors.grey),
                             ),
-
                           ],
                         ),
                         const Spacer(),
@@ -283,7 +259,6 @@ class TransactionHistory extends StatelessWidget {
                             Text(
                               "+\$${item["amount"]}",
                               style: const TextStyle(
-
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -300,11 +275,9 @@ class TransactionHistory extends StatelessWidget {
                                   color: Colors.red,
                                 ),
                               ],
-                            )
+                            ),
                           ],
-                        )
-
-
+                        ),
                       ],
                     ),
                   );
