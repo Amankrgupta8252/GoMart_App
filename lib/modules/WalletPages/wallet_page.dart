@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/Pages/WalletPages/Top_Up_E-Wallet/top_up.dart';
+import 'package:ecommerce_app/modules/WalletPages/Top_Up_E-Wallet/top_up.dart';
 import 'package:ecommerce_app/presentation/controllers/wallet_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

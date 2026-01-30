@@ -4,6 +4,8 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'services/local_storage.dart';
+
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -32,11 +34,13 @@ class AuthService {
   }
 
   // 🔐 Google Sign-In
-  Future<void> googleSignIn() async {
+  // AuthService file mein jayein
+  Future<User?> googleSignIn() async {
+    // 👈 void ki jagah User? likhein
     try {
       await _googleSignIn.signOut();
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) return;
+      if (googleUser == null) return null;
 
       final googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
@@ -47,10 +51,10 @@ class AuthService {
       final result = await _auth.signInWithCredential(credential);
       await saveUser(result.user!, provider: 'google');
 
-      Get.offAllNamed("/mainlayout");
+      return result.user; // 👈 Ye line add karein, tabhi error jayega
     } catch (e) {
-      Get.snackbar("Google Login Failed", e.toString(),
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Google Login Failed", e.toString());
+      return null; // Error aane par null bhejrein
     }
   }
 
@@ -65,45 +69,55 @@ class AuthService {
       if (result.status == LoginStatus.success) {
         final accessToken = result.accessToken!.tokenString;
 
-
-        // Create a credential for Firebase
         final OAuthCredential facebookCredential =
-        FacebookAuthProvider.credential(accessToken);
+            FacebookAuthProvider.credential(accessToken);
 
-        final UserCredential userCredential =
-        await _auth.signInWithCredential(facebookCredential);
+        final UserCredential userCredential = await _auth.signInWithCredential(
+          facebookCredential,
+        );
 
         await saveUser(userCredential.user!, provider: 'facebook');
 
         Get.offAllNamed("/mainlayout");
       } else if (result.status == LoginStatus.cancelled) {
-        Get.snackbar("Login Cancelled", "Facebook login was cancelled",
-            snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar(
+          "Login Cancelled",
+          "Facebook login was cancelled",
+          snackPosition: SnackPosition.BOTTOM,
+        );
       } else {
-        Get.snackbar("Login Failed", result.message ?? "Unknown error",
-            snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar(
+          "Login Failed",
+          result.message ?? "Unknown error",
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
     } catch (e) {
-      Get.snackbar("Facebook Login Failed", e.toString(),
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        "Facebook Login Failed",
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
-  // 🚪 Logout (Google + Facebook + Firebase)
-  Future<void> logout() async {
+  static Future<void> logout() async {
     try {
-      // Logout from all providers
-      await _googleSignIn.signOut();
-      await FacebookAuth.instance.logOut();
-      await _auth.signOut();
+      await FirebaseAuth.instance.signOut();
+
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      if (await googleSignIn.isSignedIn()) {
+        await googleSignIn.signOut();
+      }
+
+      LocalStorage.clear();
 
       Get.offAllNamed("/login");
     } catch (e) {
-      Get.snackbar("Logout Failed", e.toString(),
-          snackPosition: SnackPosition.BOTTOM);
+      print("LOGOUT ERROR: $e");
+      Get.snackbar("Error", "Logout failed: $e");
     }
   }
 
-  // ✅ Optional: Get current user
   User? get currentUser => _auth.currentUser;
 }

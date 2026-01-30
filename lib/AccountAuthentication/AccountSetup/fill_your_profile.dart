@@ -1,181 +1,121 @@
 import 'package:ecommerce_app/AccountAuthentication/AccountSetup/pin_setup.dart';
+import 'package:ecommerce_app/AccountAuthentication/services/auth_service.dart'; // Apna path check karein
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-class FillYourProfile extends StatelessWidget {
+class FillYourProfile extends StatefulWidget {
   const FillYourProfile({super.key});
+
+  @override
+  State<FillYourProfile> createState() => _FillYourProfileState();
+}
+
+class _FillYourProfileState extends State<FillYourProfile> {
+  // Controllers
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final addressController = TextEditingController();
+  final dobController = TextEditingController();
+  final genderController = TextEditingController();
+
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Pre-fill name if user already has one from Registration/Social Login
+    nameController.text = FirebaseAuth.instance.currentUser?.displayName ?? "";
+  }
+
+  void saveProfileData() async {
+    setState(() => isLoading = true);
+
+    bool success = await AuthService.updateUserProfile(
+      name: nameController.text.trim(),
+      phone: phoneController.text.trim(),
+      address: addressController.text.trim(),
+      dob: dobController.text.trim(),
+      gender: genderController.text.trim(),
+    );
+
+    setState(() => isLoading = false);
+
+    if (success) {
+      Get.to(() => const PinSetup());
+    } else {
+      Get.snackbar("Error", "Something went wrong while saving data");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Fill Your Profile", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
+      appBar: AppBar(title: const Text("Fill Your Profile", style: TextStyle(fontWeight: FontWeight.bold))),
 
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16),
         child: SizedBox(
           width: double.infinity,
-          height: 50,
-          child: OutlinedButton.icon(
-            onPressed: () {
-              Get.to(() => const PinSetup());
-            },
-            label: const Text(
-              "Continue",
-              style: TextStyle(fontSize: 16, color: Colors.white),
-            ),
-            style: OutlinedButton.styleFrom(
+          height: 55,
+          child: ElevatedButton(
+            onPressed: isLoading ? null : saveProfileData,
+            style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             ),
+            child: isLoading
+                ? const CircularProgressIndicator(color: Colors.white)
+                : const Text("Continue", style: TextStyle(fontSize: 18, color: Colors.white)),
           ),
         ),
       ),
 
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-
-              Center(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            const Center(
+              child: CircleAvatar(
+                radius: 55,
+                backgroundColor: Colors.black,
                 child: CircleAvatar(
-                  radius: 50,
-                  child: CircleAvatar(
-                    radius: 48,
-                    backgroundImage: NetworkImage(
-                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
-                    ),
-                  ),
+                  radius: 52,
+                  backgroundImage: NetworkImage("https://cdn-icons-png.flaticon.com/512/149/149071.png"),
                 ),
               ),
+            ),
+            const SizedBox(height: 30),
 
-              SizedBox(height: 20),
+            // TextFields
+            customTextField(nameController, "Full Name", IconsaxPlusBold.user),
+            customTextField(phoneController, "Phone Number", Icons.phone),
+            customTextField(addressController, "Address", IconsaxPlusBold.location),
+            customTextField(dobController, "Date of Birth", Icons.date_range),
+            customTextField(genderController, "Gender", Icons.man),
 
-              Padding(
-                padding: EdgeInsetsGeometry.all(16),
-                child: Column(
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: "Full Name",
-                        prefixIcon: Icon(IconsaxPlusBold.user),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
+            const SizedBox(height: 100),
+          ],
+        ),
+      ),
+    );
+  }
 
-                        filled: true,
-                        fillColor: Color(0xffeae8e8),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: "Email",
-                        prefixIcon: Icon(Icons.email),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-
-                        filled: true,
-                        fillColor: Color(0xffeae8e8),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: "Phone Number",
-                        prefixIcon: Icon(Icons.phone),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-
-                        filled: true,
-                        fillColor: Color(0xffeae8e8),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: "Address",
-                        prefixIcon: Icon(IconsaxPlusBold.location),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-
-                        filled: true,
-                        fillColor: Color(0xffeae8e8),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: "Date of Birth",
-                        prefixIcon: Icon(Icons.date_range),
-
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-
-                        filled: true,
-                        fillColor: Color(0xffeae8e8),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    TextField(
-                      decoration: InputDecoration(
-
-                        hintText: "Gender",
-                        prefixIcon: Icon(Icons.man),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-
-                        filled: true,
-                        fillColor: Color(0xffeae8e8),
-
-                      ),
-                    ),
-
-                    // 👇 space so last field button ke niche na jaye
-                    SizedBox(height: 100),
-                  ],
-                ),
-              ),
-            ],
+  Widget customTextField(TextEditingController controller, String hint, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: hint,
+          prefixIcon: Icon(icon),
+          filled: true,
+          fillColor: const Color(0xffeae8e8),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide.none,
           ),
         ),
       ),

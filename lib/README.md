@@ -113,10 +113,10 @@ import 'package:ecommerce_app/presentation/controllers/most_popular_controller.d
 ### Importing Pages
 ```dart
 // Old way
-import 'package:ecommerce_app/Pages/Categorys/category_details_page.dart';
+import 'package:ecommerce_app/modules/Categorys/category_details_page.dart';
 
 // New way
-import 'package:ecommerce_app/presentation/pages/categories/category_details_page.dart';
+import 'package:ecommerce_app/presentation/modules/categories/category_details_page.dart';
 ```
 
 ## 🏗️ Architecture Benefits

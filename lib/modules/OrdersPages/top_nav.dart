@@ -1,5 +1,5 @@
-import 'package:ecommerce_app/Pages/OrdersPages/completed_order.dart';
-import 'package:ecommerce_app/Pages/OrdersPages/order_page.dart';
+import 'package:ecommerce_app/modules/OrdersPages/completed_order.dart';
+import 'package:ecommerce_app/modules/OrdersPages/order_page.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 

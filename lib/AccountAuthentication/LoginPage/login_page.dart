@@ -1,8 +1,10 @@
 import 'package:ecommerce_app/AccountAuthentication/AccountSetup/fill_your_profile.dart';
 import 'package:ecommerce_app/AccountAuthentication/ForgotPassword/forgot_page.dart';
+import 'package:ecommerce_app/modules/main_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'Data_server/auth_service.dart';
+import '../services/auth_service.dart';
+import '../services/local_storage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,7 +20,6 @@ class _LoginPageState extends State<LoginPage> {
   bool isPasswordHidden = true;
   bool isChecked = false;
 
-  // ✅ FIXED LOGIN FUNCTION
   void handleLogin() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
@@ -28,19 +29,21 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    final success = await AuthService.login(email, password);
+    final user = await AuthService.login(email, password);
 
-    if (success) {
-      Get.offAll(() => FillYourProfile());
+    if (user != null) {
+      LocalStorage.saveSession(email: user.email ?? "", method: "email");
+
+      Get.offAll(() => MainLayout());
     } else {
       showMessage("Invalid Email or Password ❌");
     }
   }
 
   void showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -54,16 +57,15 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
 
-    return Scaffold(appBar: AppBar(
-
-    ),
+    return Scaffold(
+      appBar: AppBar(),
 
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 50,),
+            SizedBox(height: 50),
 
             if (!isKeyboardOpen)
               const Text(
@@ -100,9 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 suffixIcon: IconButton(
                   icon: Icon(
-                    isPasswordHidden
-                        ? Icons.visibility_off
-                        : Icons.visibility,
+                    isPasswordHidden ? Icons.visibility_off : Icons.visibility,
                   ),
                   onPressed: () {
                     setState(() {

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce_app/modules/search/search_keybord.dart';
 import 'package:ecommerce_app/presentation/pages/home/greeting_page.dart';
 import 'package:ecommerce_app/presentation/pages/home/special_offers.dart';
-import 'package:ecommerce_app/presentation/pages/wishlist/wish_list.dart';
 import 'package:ecommerce_app/presentation/pages/notifications/notification_page.dart';
-import 'package:ecommerce_app/presentation/pages/search/search_keybord.dart';
+import 'package:ecommerce_app/presentation/pages/wishlist/wish_list.dart';
 import 'package:ecommerce_app/presentation/widgets/shimmers/app_shimmer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ Future<DocumentSnapshot<Map<String, dynamic>>> getUserData() async {
 
   return FirebaseFirestore.instance
       .collection('users')
-      .doc(user.uid) // 👈 ONLY logged-in user
+      .doc(user.uid)
       .get();
 }
 
@@ -49,7 +49,7 @@ class HomePage extends StatelessWidget {
 
           final userData = snapshot.data!.data()!;
 
-          return SafeArea(
+                return SafeArea(
             top: false,
             child: Column(
               children: [
@@ -59,8 +59,12 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     children: [
                       CircleAvatar(
-                        radius: 20,
-                        backgroundImage: NetworkImage(userData['photo'].toString()),
+                        // radius: 60,
+                        backgroundColor: Colors.grey.shade200,
+                        backgroundImage: NetworkImage(
+                          userData['photo'] ??
+                              "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+                        ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(

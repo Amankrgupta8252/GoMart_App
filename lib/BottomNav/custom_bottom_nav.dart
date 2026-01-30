@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/Pages/CartPages/Cart_page.dart';
+import 'package:ecommerce_app/modules/CartPages/Cart_page.dart';
 import 'package:ecommerce_app/presentation/controllers/bottom_nav_controller.dart';
 import 'package:ecommerce_app/presentation/pages/home/home_page.dart';
 import 'package:flutter/material.dart';

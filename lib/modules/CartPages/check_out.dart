@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/Pages/CartPages/ShippingPage/shipping_address.dart';
+import 'package:ecommerce_app/modules/CartPages/ShippingPage/shipping_address.dart';
 import 'package:ecommerce_app/presentation/controllers/cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

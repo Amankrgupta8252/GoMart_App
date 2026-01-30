@@ -1,9 +1,10 @@
 import 'dart:developer';
+import 'package:ecommerce_app/AccountAuthentication/AccountSetup/fill_your_profile.dart';
 import 'package:ecommerce_app/AccountAuthentication/LoginPage/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'LoginPage/Data_server/auth_service.dart';
-
+import 'services/auth_service.dart';
+import 'services/local_storage.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -13,6 +14,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  // final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmController = TextEditingController();
@@ -21,41 +23,77 @@ class _SignupPageState extends State<SignupPage> {
   bool isLoading = false;
   bool isChecked = false;
 
+  // SignupPage.dart ke andar
+
   void handleRegister() async {
+    // 1. Inputs ko trim karke variables mein lena
+    // final name = nameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
-    final confirm = confirmController.text.trim();
+    final confirmPassword = confirmController.text.trim();
 
-    if (email.isEmpty || password.isEmpty || confirm.isEmpty) {
-      showMessage("Please fill all fields");
+    // 2. Validation Checks
+    // if (name.isEmpty || email.isEmpty || password.isEmpty) {
+    //   showMessage("Please fill all fields ⚠️");
+    //   return;
+    // }
+
+    if (password != confirmPassword) {
+      showMessage("Passwords do not match ❌");
       return;
     }
 
-    if (password != confirm) {
-      showMessage("Password not match");
+    if (password.length < 6) {
+      showMessage("Password must be at least 6 characters 🔐");
       return;
     }
 
+    if (!isChecked) {
+      showMessage("Please agree to the Terms & Conditions 📄");
+      return;
+    }
+
+    // 3. Loading Start
     setState(() => isLoading = true);
 
-    final success = await AuthService.register(email, password);
+    try {
+      // 4. AuthService se Firebase mein register karna
+      // Note: Ensure karein ki AuthService.register 'User?' return kare
+      final user = await AuthService.register(email, password);
 
-    log(success.toString());
+      if (user != null) {
+        // 5. Session ko LocalStorage mein save karna (Persistence ke liye)
+        LocalStorage.saveSession(
+            email: user.email ?? email,
+            method: "email"
+        );
 
-    if (success) {
+        setState(() => isLoading = false);
+
+        // 6. Navigation: Registration ke baad seedha Fill Profile page par
+        Get.offAll(() => const FillYourProfile());
+
+        // Success Message
+        Get.snackbar(
+          "Success ✅",
+          "Account created! Please complete your profile.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      } else {
+        // Agar user null aaya (Registration fail hua)
+        setState(() => isLoading = false);
+        showMessage("Registration failed. Email might already be in use. ❌");
+      }
+    } catch (e) {
       setState(() => isLoading = false);
-      Get.offAll(() => const LoginPage());
-      showMessage("Account created successfully ✅");
-
-    } else {
-      setState(() => isLoading = false);
-      showMessage("Registration failed ❌");
+      showMessage("An error occurred: $e");
     }
   }
 
   void showMessage(String msg) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(msg)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
   @override
@@ -63,16 +101,13 @@ class _SignupPageState extends State<SignupPage> {
     final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
 
     return Scaffold(
-      appBar: AppBar(
-
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
-
           children: [
-            SizedBox(height: 50,),
+            SizedBox(height: 50),
             if (!isKeyboardOpen)
               const Text(
                 'Create your Account',
@@ -108,9 +143,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 suffixIcon: IconButton(
                   icon: Icon(
-                    isPasswordHidden
-                        ? Icons.visibility_off
-                        : Icons.visibility,
+                    isPasswordHidden ? Icons.visibility_off : Icons.visibility,
                   ),
                   onPressed: () {
                     setState(() {

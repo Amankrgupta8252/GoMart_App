@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/Pages/main_layout.dart';
+import 'package:ecommerce_app/modules/main_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';

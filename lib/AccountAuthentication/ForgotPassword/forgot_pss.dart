@@ -1,122 +1,74 @@
-import 'package:ecommerce_app/AccountAuthentication/AccountSetup/Finger_Print/fingerprint_page.dart';
 import 'package:ecommerce_app/AccountAuthentication/ForgotPassword/new_password.dart';
+import 'package:ecommerce_app/AccountAuthentication/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 
 class ForgotPss extends StatefulWidget {
-  const ForgotPss({super.key});
+  final String userInput; // Piche se aane wala email/phone
+  const ForgotPss({super.key, required this.userInput});
 
   @override
-  State<ForgotPss> createState() => _PinSetupState();
+  State<ForgotPss> createState() => _ForgotPssState();
 }
 
-class _PinSetupState extends State<ForgotPss> {
+class _ForgotPssState extends State<ForgotPss> {
   final TextEditingController _pinController = TextEditingController();
+  bool isPinComplete = false;
+  bool isLoading = false;
 
-  @override
-  void dispose() {
-    _pinController.dispose();
-    super.dispose();
-  }
+  void handleVerify() async {
+    setState(() => isLoading = true);
 
-  void _pinCompleted(String pin) {
-    debugPrint("Pin completed: $pin");
+    // Firestore se OTP match karna
+    bool isValid = await AuthService.verifyOTP(widget.userInput, _pinController.text);
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text("PIN set: $pin")));
+    setState(() => isLoading = false);
+
+    if (isValid) {
+      Get.to(() => NewPassword(userInput: widget.userInput));
+    } else {
+      Get.snackbar("Error", "Invalid or Expired OTP", backgroundColor: Colors.red, colorText: Colors.white);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Spacer();
     final defaultPinTheme = PinTheme(
-      width: 60,
-      height: 60,
-      textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade100),
-
-
-
-      ),
+      width: 70, height: 70,
+      textStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(15)),
     );
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: const Text(
-          "Forgot Password",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: AppBar(title: const Text("OTP Verification")),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 100),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Code has been send to +91 ******16",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            const SizedBox(height: 40),
+            const Text("Verification Code", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            Text("Enter code sent to ${widget.userInput}", textAlign: TextAlign.center),
+            const SizedBox(height: 50),
+            Pinput(
+              length: 4,
+              controller: _pinController,
+              defaultPinTheme: defaultPinTheme,
+              onCompleted: (pin) => setState(() => isPinComplete = true),
+              onChanged: (pin) => setState(() => isPinComplete = pin.length == 4),
+            ),
+            const SizedBox(height: 50),
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: ElevatedButton(
+                onPressed: (isPinComplete && !isLoading) ? handleVerify : null,
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.black, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+                child: isLoading ? const CircularProgressIndicator() : const Text("Verify", style: TextStyle(color: Colors.white, fontSize: 18)),
               ),
-              const SizedBox(height: 50),
-
-              Center(
-
-                child: Pinput(
-                  length: 4,
-                  controller: _pinController,
-                  defaultPinTheme: defaultPinTheme,
-
-                  separatorBuilder: (index) => const SizedBox(width: 30),
-
-                  focusedPinTheme: defaultPinTheme.copyWith(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.blue),
-                    ),
-                  ),
-                  onCompleted: _pinCompleted,
-                ),
-
-              ),
-
-              const SizedBox(height: 80),
-
-              Text("Resend code in 55 s", style: TextStyle(fontSize: 20),),
-
-              const SizedBox(height: 80),
-
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      Get.to(() => NewPassword());
-                    },
-                    label: const Text(
-                      "Verify",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/AccountAuthentication/LoginPage/login_page.dart';
+import 'package:ecommerce_app/AccountAuthentication/services/local_storage.dart';
 import 'package:ecommerce_app/AccountAuthentication/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,7 +41,15 @@ class SignupWith extends StatelessWidget {
                   image:
                       "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/500px-Google_%22G%22_logo.svg.png",
                   onTap: () async {
-                    await auth.googleSignIn();
+                    final user = await auth.googleSignIn();
+
+                    if (user != null) {
+                      LocalStorage.saveSession(
+                        email: user.email ?? "",
+                        method: "google",
+                      );
+                      Get.offAllNamed('/mainlayout');
+                    }
                   },
                 ),
               ),
@@ -50,13 +59,12 @@ class SignupWith extends StatelessWidget {
                 child: socialButton(
                   text: "Continue with Facebook",
                   image:
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJnrq3V01lH2NfWrH8aRDp9OUJupGWBRk6jA&s",
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJnrq3V01lH2NfWrH8aRDp9OUJupGWBRk6jA&s",
                   onTap: () async {
                     await auth.facebookSignIn();
                   },
                 ),
               ),
-
 
               Padding(
                 padding: const EdgeInsets.all(16.0),

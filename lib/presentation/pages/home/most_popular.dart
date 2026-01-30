@@ -1,5 +1,5 @@
-import 'package:ecommerce_app/Pages/mostPopular/most_popular_detail_page.dart';
-import 'package:ecommerce_app/Pages/mostPopular/most_popular_page.dart';
+import 'package:ecommerce_app/modules/mostPopular/most_popular_detail_page.dart';
+import 'package:ecommerce_app/modules/mostPopular/most_popular_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';

@@ -1,23 +1,28 @@
 import 'package:ecommerce_app/AccountAuthentication/signup_with.dart';
-import 'package:ecommerce_app/Pages/main_layout.dart';
 import 'package:ecommerce_app/WelcomePages/welcome.dart';
+import 'package:ecommerce_app/modules/main_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'AccountAuthentication/services/local_storage.dart';
 import 'firebase_options.dart';
 
 
 Future<String> getInitialRoute() async {
-  final prefs = await SharedPreferences.getInstance();
-  final seenWelcome = prefs.getBool("seenWelcome") ?? false;
-  final user = FirebaseAuth.instance.currentUser;
+  // GetStorage se check karein
+  bool isLoggedIn = LocalStorage.isLoggedIn();
 
-  if (!seenWelcome) return "/welcome";
-  if (user == null) return "/login";
-  return "/home";
+  print("App Start - User Logged In: $isLoggedIn");
+
+  if (isLoggedIn) {
+    return "/mainlayout";
+  } else {
+    return "/login";
+  }
 }
 
 void main() async {
@@ -25,6 +30,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // GetStorage ko init karna zaroori hai
+  await GetStorage.init();
 
   runApp(const MyApp());
 }
@@ -37,17 +45,20 @@ class MyApp extends StatelessWidget {
     return FutureBuilder<String>(
       future: getInitialRoute(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+        // Jab tak data load ho raha hai, Loading spinner dikhao
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const MaterialApp(
+            debugShowCheckedModeBanner: false,
             home: Scaffold(
-              body: Center(child: CircularProgressIndicator()),
+              body: Center(child: CircularProgressIndicator(color: Colors.black)),
             ),
           );
         }
 
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: snapshot.data!,
+          // Snapshot se aane wala route use karein
+          initialRoute: snapshot.data ?? "/login",
           getPages: [
             GetPage(name: "/welcome", page: () => const Welcome()),
             GetPage(name: "/login", page: () => const SignupWith()),

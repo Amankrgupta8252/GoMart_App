@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce_app/Pages/special_offer_page.dart';
+import 'package:ecommerce_app/modules/special_offer_page.dart';
 import 'package:ecommerce_app/presentation/controllers/special_offers_controller.dart';
 import 'package:ecommerce_app/presentation/widgets/shimmers/app_shimmer.dart';
 import 'package:flutter/material.dart';
